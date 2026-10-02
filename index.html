@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>FloodSafe Kerala — AHP Route Safety Model</title>
 
 <link rel="stylesheet"
@@ -11,467 +12,628 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:#eef4f7;
   color:#17232d;
 }
+
 header{
   background:linear-gradient(135deg,#063b5c,#087f8c);
   color:white;
   padding:20px;
 }
-header h1{margin:0;font-size:27px}
-header p{margin:7px 0 0;opacity:.9}
-.container{max-width:1200px;margin:auto;padding:16px}
+
+header h1{
+  margin:0;
+  font-size:27px;
+}
+
+header p{
+  margin:7px 0 0;
+  opacity:.9;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:16px;
+}
+
 .controls{
-  background:white;padding:16px;border-radius:14px;
+  background:white;
+  padding:16px;
+  border-radius:14px;
   box-shadow:0 3px 12px #0002;
-  display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px;
+  display:grid;
+  grid-template-columns:1fr 1.5fr 1fr;
+  gap:12px;
 }
+
 label{
-  display:block;font-size:12px;font-weight:bold;
-  color:#52616b;margin-bottom:6px;
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  color:#52616b;
+  margin-bottom:6px;
 }
+
 input,button{
-  width:100%;padding:12px;border:1px solid #ccd6dc;
-  border-radius:9px;font-size:15px;
+  width:100%;
+  padding:12px;
+  border:1px solid #ccd6dc;
+  border-radius:9px;
+  font-size:15px;
 }
+
 button{
-  border:0;background:#07855b;color:white;
-  font-weight:bold;cursor:pointer;
+  border:0;
+  background:#07855b;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
-button:hover{background:#056c4a}
-button:disabled{opacity:.6;cursor:not-allowed}
-.secondary{background:#1769aa}
-.reset{background:#64748b}
+
+button:hover{
+  background:#056c4a;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.reset{
+  background:#64748b;
+}
+
 .map-container{
-  margin-top:16px;background:white;padding:10px;
-  border-radius:14px;box-shadow:0 3px 12px #0002;
+  margin-top:16px;
+  background:white;
+  padding:10px;
+  border-radius:14px;
+  box-shadow:0 3px 12px #0002;
 }
-#map{height:560px;width:100%;border-radius:10px}
+
+#map{
+  height:560px;
+  width:100%;
+  border-radius:10px;
+}
+
 .status{
-  margin-top:12px;padding:14px;background:#063b5c;
-  color:white;border-radius:10px;line-height:1.5;
+  margin-top:12px;
+  padding:14px;
+  background:#063b5c;
+  color:white;
+  border-radius:10px;
+  line-height:1.5;
 }
+
 .cards{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:12px;margin-top:15px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:15px;
 }
+
 .card{
-  background:white;padding:15px;border-radius:12px;
+  background:white;
+  padding:15px;
+  border-radius:12px;
   box-shadow:0 2px 8px #0001;
 }
-.card-title{font-size:11px;color:#71808a;font-weight:bold}
-.card-value{font-size:19px;font-weight:bold;margin-top:6px}
+
+.card-title{
+  font-size:11px;
+  color:#71808a;
+  font-weight:bold;
+}
+
+.card-value{
+  font-size:19px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
 .section{
-  margin-top:15px;background:white;padding:16px;
-  border-radius:14px;box-shadow:0 3px 12px #0002;
+  margin-top:15px;
+  background:white;
+  padding:16px;
+  border-radius:14px;
+  box-shadow:0 3px 12px #0002;
 }
-.section h2{margin:0 0 8px;color:#063b5c;font-size:20px}
-.muted{color:#64748b;font-size:13px;line-height:1.5}
+
+.section h2{
+  margin:0 0 8px;
+  color:#063b5c;
+  font-size:20px;
+}
+
+.muted{
+  color:#64748b;
+  font-size:13px;
+  line-height:1.5;
+}
+
 .weight-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
 }
+
 .weight-total{
-  margin-top:12px;padding:12px;border-radius:9px;background:#eef7f5;
+  margin-top:12px;
+  padding:12px;
+  border-radius:9px;
+  background:#eef7f5;
 }
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:12px}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
 th,td{
-  padding:9px 7px;border-bottom:1px solid #e2e8f0;
-  text-align:center;white-space:nowrap
+  padding:9px 7px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:center;
+  white-space:nowrap;
 }
-th{background:#063b5c;color:white}
-tr.safe-row{background:#e9f8ef;font-weight:bold}
+
+th{
+  background:#063b5c;
+  color:white;
+}
+
+tr.safe-row{
+  background:#e9f8ef;
+  font-weight:bold;
+}
+
 .safe-badge{
-  background:#07855b;color:white;padding:4px 7px;border-radius:12px
+  background:#07855b;
+  color:white;
+  padding:4px 7px;
+  border-radius:12px;
 }
-.bar-chart{display:flex;flex-direction:column;gap:12px}
+
+.bar-chart{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
 .bar-row{
-  display:grid;grid-template-columns:220px 1fr 70px;
-  align-items:center;gap:10px;font-size:13px
+  display:grid;
+  grid-template-columns:220px 1fr 70px;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
 }
-.bar-bg{height:25px;background:#e2e8f0;border-radius:7px;overflow:hidden}
-.bar-fill{height:100%;background:#07855b;border-radius:7px}
+
+.bar-bg{
+  height:25px;
+  background:#e2e8f0;
+  border-radius:7px;
+  overflow:hidden;
+}
+
+.bar-fill{
+  height:100%;
+  background:#07855b;
+  border-radius:7px;
+}
+
 .formula{
-  background:#f1f5f9;border-left:5px solid #087f8c;
-  padding:16px;border-radius:8px;font-size:16px
+  background:#f1f5f9;
+  border-left:5px solid #087f8c;
+  padding:16px;
+  border-radius:8px;
+  font-size:16px;
 }
+
 .legend{
-  display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;
-  font-size:13px;color:#52616b
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:10px;
+  font-size:13px;
+  color:#52616b;
 }
-.legend span{display:flex;align-items:center;gap:6px}
-.dot{width:13px;height:13px;border-radius:50%;display:inline-block}
-.green{background:#07855b}.yellow{background:#f59e0b}.red{background:#d64545}
+
+.legend span{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.dot{
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  display:inline-block;
+}
+
+.green{background:#07855b}
+.yellow{background:#f59e0b}
+
 @media(max-width:800px){
-  .controls{grid-template-columns:1fr}
-  .cards{grid-template-columns:1fr 1fr}
-  .weight-grid{grid-template-columns:1fr 1fr}
-  #map{height:450px}
+
+  .controls{
+    grid-template-columns:1fr;
+  }
+
+  .cards{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .weight-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  #map{
+    height:450px;
+  }
+
 }
 </style>
 </head>
 
 <body>
+
 <header>
   <h1>🌊 FloodSafe Kerala</h1>
-  <p>Emergency Route Safety Planning System — AHP + Road Dataset + Route Mapping</p>
+  <p>
+    Emergency Route Safety Planning System —
+    AHP + Road Dataset + Route Mapping
+  </p>
 </header>
+
 
 <div class="container">
 
-  <div class="controls">
-    <div>
-      <label>STARTING POINT</label>
-      <input id="startPoint" value="Karukachal Junction, Kerala, India">
-    </div>
 
-    <div>
-      <label>DESTINATION</label>
-      <input id="destination" value="St. Thomas Hospital, Chethipuzha, Kerala, India">
-    </div>
+<!-- =====================================================
+     CONTROLS
+====================================================== -->
 
-    <div>
-      <label>PROJECT ROAD DATA</label>
-      <button id="loadDemoButton">📊 Load Project Route Data</button>
-    </div>
+<div class="controls">
 
-    <div>
-      <label>CALCULATE</label>
-      <button id="calculateButton">🚑 Rank Safest Route & Show Map</button>
-    </div>
+  <div>
+    <label>STARTING POINT</label>
 
-    <div>
-      <label>RESET</label>
-      <button id="resetButton" class="reset">↺ Reset</button>
-    </div>
+    <input
+      id="startPoint"
+      value="Karukachal Junction, Kerala, India">
   </div>
 
-  <div class="section">
-    <strong>Project model:</strong>
-    The three study routes and their road-safety values are built into the
-    demonstration. The seven road-safety parameters are converted into
-    normalized safety scores and combined using the AHP weights obtained
-    from the survey. The route with the highest overall Road Safety Score
-    is identified as the safest route.
+
+  <div>
+    <label>DESTINATION</label>
+
+    <input
+      id="destination"
+      value="St. Thomas Hospital, Chethipuzha, Kerala, India">
   </div>
 
-  <div class="cards">
-    <div class="card">
-      <div class="card-title">SAFEST ROUTE</div>
-      <div class="card-value" id="safeRoute">—</div>
-    </div>
-    <div class="card">
-      <div class="card-title">SAFETY SCORE</div>
-      <div class="card-value" id="safeScore">—</div>
-    </div>
-    <div class="card">
-      <div class="card-title">ROUTE LENGTH</div>
-      <div class="card-value" id="safeDistance">—</div>
-    </div>
-    <div class="card">
-      <div class="card-title">ROUTE STATUS</div>
-      <div class="card-value" id="routeStatus">Waiting</div>
-    </div>
+
+  <div>
+    <label>PROJECT ROAD DATA</label>
+
+    <button id="loadDemoButton">
+      📊 Load Project Route Data
+    </button>
   </div>
 
-  <div class="map-container">
-    <div id="map"></div>
 
-    <div class="legend">
-      <span><i class="dot green"></i> Highest-scoring / safest route</span>
-      <span><i class="dot yellow"></i> Alternative route</span>
-      <span>📍 Start &nbsp;&nbsp; 🏥 Destination</span>
-    </div>
+  <div>
+    <label>CALCULATE</label>
 
-    <div class="status" id="status">
-      Click <strong>Load Project Route Data</strong>, then press
-      <strong>Rank Safest Route & Show Map</strong>.
-    </div>
+    <button id="calculateButton">
+      🚑 Rank Safest Route & Show Map
+    </button>
   </div>
 
-  <div class="section">
-    <h2>⚖️ AHP Weights from Survey</h2>
 
-    <p class="muted">
-      These are the AHP weights supplied from the 20-respondent survey.
-      They are already normalized and total 1.0000.
-    </p>
+  <div>
+    <label>RESET</label>
 
-    <div class="weight-grid" id="weightGrid"></div>
-
-    <div class="weight-total">
-      Total AHP Weight: <strong id="weightTotal">1.0000</strong>
-      <span id="weightMessage" style="color:#07855b">✓ Valid</span>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>📋 Route Safety Ranking</h2>
-
-    <div class="table-wrap">
-      <table id="routeTable">
-        <thead>
-          <tr>
-            <th>Route</th>
-            <th>Distance</th>
-            <th>Flooding</th>
-            <th>Traffic</th>
-            <th>Road Condition</th>
-            <th>Road Width</th>
-            <th>Blockages</th>
-            <th>Hospital Access</th>
-            <th>Safety Score</th>
-            <th>Rank</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td colspan="10">No dataset loaded.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>📊 Route Comparison</h2>
-    <div id="barChart" class="bar-chart"></div>
-  </div>
-
-  <div class="section">
-    <h2>🧮 Road Safety Scoring Model</h2>
-
-    <div class="formula">
-      <strong>Overall Road Safety Score</strong>
-      = Σ (AHP Weight × Normalized Parameter Score)
-    </div>
-
-    <p class="muted">
-      Higher score means higher route safety. Distance is normalized so that
-      the shorter route receives the higher distance-safety score. For the
-      other parameters, safer conditions receive higher scores.
-    </p>
+    <button id="resetButton" class="reset">
+      ↺ Reset
+    </button>
   </div>
 
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        crossorigin=""></script>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- =====================================================
+     MODEL DESCRIPTION
+====================================================== -->
 
-<script>
+<div class="section">
 
-/* =========================================================
-   FLOODSAFE KERALA
-   AHP WEIGHTS + ROAD DATASET + OSM/LEAFLET ROUTES
-   ========================================================= */
+  <strong>Project model:</strong>
 
+  The three study routes and their road-safety values are
+  built into the demonstration. The seven road-safety
+  parameters are converted into normalized safety scores
+  and combined using the AHP weights obtained from the
+  survey. The route with the highest overall Road Safety
+  Score is identified as the safest route.
 
-/* ---------------------------------------------------------
-   AHP WEIGHTS
---------------------------------------------------------- */
+</div>
 
-const PARAMETERS = [
-  "Distance",
-  "Flooding",
-  "Traffic Congestion",
-  "Road Condition",
-  "Road Width",
-  "Road Blockages",
-  "Hospital Accessibility"
-];
 
-const ahpWeights = {
-  "Hospital Accessibility": 0.2432,
-  "Flooding": 0.1904,
-  "Road Condition": 0.1407,
-  "Road Blockages": 0.1352,
-  "Traffic Congestion": 0.1298,
-  "Road Width": 0.0887,
-  "Distance": 0.0721
-};
+<!-- =====================================================
+     RESULT CARDS
+====================================================== -->
 
+<div class="cards">
 
-/* ---------------------------------------------------------
-   STUDY ROUTE WAYPOINTS
---------------------------------------------------------- */
+  <div class="card">
 
-const ROUTE_WAYPOINTS = {
+    <div class="card-title">
+      SAFEST ROUTE
+    </div>
 
-  "Route 1": [
-    "Perumpanachy, Kerala, India",
-    "Kurishumoodu, Kerala, India"
-  ],
+    <div class="card-value"
+         id="safeRoute">
+      —
+    </div>
 
-  "Route 2": [
-    "Kunnamthanam, Kerala, India",
-    "Madappally, Kerala, India"
-  ],
+  </div>
 
-  "Route 3": [
-    "Thrikkodithanam, Kerala, India",
-    "Ithithanam, Kerala, India"
-  ]
 
-};
+  <div class="card">
 
+    <div class="card-title">
+      SAFETY SCORE
+    </div>
 
-let routeData = [];
+    <div class="card-value"
+         id="safeScore">
+      —
+    </div>
 
-let map;
+  </div>
 
-let mapLayers = [];
 
-let startMarker = null;
+  <div class="card">
 
-let destinationMarker = null;
+    <div class="card-title">
+      ROUTE LENGTH
+    </div>
 
+    <div class="card-value"
+         id="safeDistance">
+      —
+    </div>
 
-/* ---------------------------------------------------------
-   MAP
---------------------------------------------------------- */
+  </div>
 
-map = L.map("map").setView(
-  [9.47, 76.55],
-  12
-);
 
-L.tileLayer(
-  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {
-    maxZoom:19,
+  <div class="card">
 
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">' +
-      'OpenStreetMap contributors</a>'
-  }
-).addTo(map);
+    <div class="card-title">
+      ROUTE STATUS
+    </div>
 
+    <div class="card-value"
+         id="routeStatus">
+      Waiting
+    </div>
 
-function clearMap(){
+  </div>
 
-  mapLayers.forEach(
-    layer => map.removeLayer(layer)
-  );
+</div>
 
-  mapLayers = [];
 
-  if(startMarker){
+<!-- =====================================================
+     MAP
+====================================================== -->
 
-    map.removeLayer(startMarker);
+<div class="map-container">
 
-    startMarker = null;
-  }
+  <div id="map"></div>
 
-  if(destinationMarker){
 
-    map.removeLayer(destinationMarker);
+  <div class="legend">
 
-    destinationMarker = null;
-  }
-}
+    <span>
+      <i class="dot green"></i>
+      Highest-scoring / safest route
+    </span>
 
+    <span>
+      <i class="dot yellow"></i>
+      Alternative route
+    </span>
 
-/* ---------------------------------------------------------
-   AHP DISPLAY
---------------------------------------------------------- */
+    <span>
+      📍 Start &nbsp;&nbsp; 🏥 Destination
+    </span>
 
-function buildWeightDisplay(){
+  </div>
 
-  const grid =
-    document.getElementById("weightGrid");
 
-  grid.innerHTML = "";
+  <div class="status" id="status">
 
-  PARAMETERS.forEach(parameter => {
+    Click
+    <strong>Load Project Route Data</strong>,
+    then press
+    <strong>Rank Safest Route & Show Map</strong>.
 
-    const box =
-      document.createElement("div");
+  </div>
 
-    box.style.background = "#f8fafc";
+</div>
 
-    box.style.padding = "12px";
 
-    box.style.borderRadius = "9px";
+<!-- =====================================================
+     AHP WEIGHTS
+====================================================== -->
 
-    box.innerHTML =
-      "<div style='font-size:12px;color:#64748b;font-weight:bold'>" +
+<div class="section">
 
-      escapeHTML(parameter) +
+  <h2>⚖️ AHP Weights from Survey</h2>
 
-      "</div>" +
+  <p class="muted">
 
-      "<div style='font-size:20px;font-weight:bold;margin-top:5px'>" +
+    These are the AHP weights supplied from the
+    20-respondent survey. They are already normalized
+    and total 1.0000.
 
-      ahpWeights[parameter].toFixed(4) +
+  </p>
 
-      "</div>";
 
-    grid.appendChild(box);
+  <div class="weight-grid"
+       id="weightGrid">
+  </div>
 
-  });
 
+  <div class="weight-total">
 
-  const total =
-    PARAMETERS.reduce(
-      (sum,p) => sum + ahpWeights[p],
-      0
-    );
+    Total AHP Weight:
+    <strong id="weightTotal">
+      1.0000
+    </strong>
 
+    <span id="weightMessage"
+          style="color:#07855b">
 
-  document.getElementById(
-    "weightTotal"
-  ).textContent =
-    total.toFixed(4);
+      ✓ Valid
 
-}
+    </span>
 
-buildWeightDisplay();
+  </div>
 
+</div>
 
-/* ---------------------------------------------------------
-   SCORE MAPS
---------------------------------------------------------- */
 
-const SCORE_MAPS = {
+<!-- =====================================================
+     ROUTE TABLE
+====================================================== -->
 
-  "Flooding":{
-    "low":1,
-    "medium":0.5,
-    "high":0
-  },
+<div class="section">
 
-  "Traffic Congestion":{
-    "low":1,
-    "medium":0.5,
-    "high":0
-  },
+  <h2>📋 Route Safety Ranking</h2>
 
-  "Road Condition":{
-    "good":1,
-    "fair":0.5,
-    "poor":0
-  },
 
-  "Road Width":{
-    "wide":1,
-    "medium":0.5,
-    "narrow":0
-  },
+  <div class="table-wrap">
 
-  "Road Blockages":{
-    "none":1,
-    "minor":0.5,
-    "major":0
-  },
+    <table id="routeTable">
 
-  "Hospital Accessibility":{
-    "direct":1,
-    "moderate":0.5,
-   
+      <thead>
+
+        <tr>
+
+          <th>Route</th>
+
+          <th>Distance</th>
+
+          <th>Flooding</th>
+
+          <th>Traffic</th>
+
+          <th>Road Condition</th>
+
+          <th>Road Width</th>
+
+          <th>Blockages</th>
+
+          <th>Hospital Access</th>
+
+          <th>Safety Score</th>
+
+          <th>Rank</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr>
+
+          <td colspan="10">
+            No dataset loaded.
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     CHART
+====================================================== -->
+
+<div class="section">
+
+  <h2>📊 Route Comparison</h2>
+
+  <div id="barChart"
+       class="bar-chart">
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     FORMULA
+====================================================== -->
+
+<div class="section">
+
+  <h2>🧮 Road Safety Scoring Model</h2>
+
+
+  <div class="formula">
+
+    <strong>
+      Overall Road Safety Score
+    </strong>
+
+    = Σ
+    (AHP Weight × Normalized Parameter Score)
+
+  </div>
+
+
+  <p class="muted">
+
+    Higher score means higher route safety.
+    Distance is normalized so that the shorter route
+    receives the higher distance-safety score.
+
+    For the other parameters, safer conditions receive
+    higher scores.
+
+  </p>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT LIBRARIES
+====================================================== -->
+
+<script
+src="https://unpkg.com/leaflet@1
